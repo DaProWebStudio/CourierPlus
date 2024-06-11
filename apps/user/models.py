@@ -6,14 +6,14 @@ from django.utils.translation import gettext_lazy as _
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
 
-from .managers import UserManager
+from .managers import UserManager, CourierManager
 from common import upload_to_file
 from common.constants import RoleType, GenderType
 
 
 class User(AbstractBaseUser, PermissionsMixin):
     """ Пользователь """
-    USER_TYPE = (
+    ROLE_TYPE = (
         (RoleType.CLIENT.value, _('Клиент')),
         (RoleType.COURIER.value, _('Курьер')),
         (RoleType.DISPATCHER.value, _('Диспетчер')),
@@ -31,7 +31,7 @@ class User(AbstractBaseUser, PermissionsMixin):
                                  format='webp', processors=[ResizeToFill(500, 500)],
                                  options={'quality': 90}, null=True, blank=True)
     role = models.CharField(_("Роль пользователя"), max_length=40,
-                            choices=USER_TYPE, default=RoleType.CLIENT.value)
+                            choices=ROLE_TYPE, default=RoleType.CLIENT.value)
     gender = models.CharField(_("Пол"), max_length=40, choices=GENDERS, default=GenderType.MEN.value)
 
     is_superuser = models.BooleanField(default=False)
@@ -58,9 +58,18 @@ class User(AbstractBaseUser, PermissionsMixin):
         """ Возвращает first_name, last_name с пробелом между ними. """
         return f"{self.first_name} {self.last_name}".strip()
 
-    def get_user_type(self) -> RoleType:
-        return dict(self.USER_TYPE)[self.user_type]
+    def get_role(self) -> RoleType:
+        return dict(self.ROLE_TYPE)[self.role]
 
     def get_first_latter_from_name(self):
         if self.first_name and self.last_name:
             return f'{self.first_name[0]}{self.last_name[0]}'
+
+
+class Courier(User):
+    objects = CourierManager()
+
+    class Meta:
+        proxy = True
+        verbose_name = "Курьер"
+        verbose_name_plural = "Курьеры"

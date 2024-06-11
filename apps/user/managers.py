@@ -40,3 +40,9 @@ class UserManager(BaseUserManager):
             raise ValueError('Superuser must have is_staff=True.')
 
         return self._create_user(email, password, **extra_fields)
+
+
+class CourierManager(BaseUserManager):
+    def get_queryset(self):
+        query = super(CourierManager, self).get_queryset()
+        return query.filter(role=RoleType.COURIER.value)
