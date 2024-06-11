@@ -12,3 +12,11 @@ class GenderType(Enum):
     MEN: str = 'MEN'
     WOMEN: str = 'WOMEN'
 
+
+class OrderStatus(Enum):
+    PENDING: str = 'PENDING'
+    IN_TRANSIT: str = 'IN_TRANSIT'
+    DELIVERED: str = 'DELIVERED'
+    CANCELLED: str = 'CANCELLED'
+
+

@@ -34,6 +34,7 @@ INSTALLED_APPS = [
 
     # My Apps
     'apps.user.apps.UserConfig',
+    'apps.order.apps.OrderConfig',
 ]
 
 MIDDLEWARE = [
