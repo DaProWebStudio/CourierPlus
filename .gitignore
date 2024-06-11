@@ -45,7 +45,7 @@ Makefile
 
 doc-dev
 
-**/Logging/
+**/logging/
 **/dev_templates/
 
 static/admin

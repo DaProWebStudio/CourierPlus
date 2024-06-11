@@ -50,3 +50,8 @@ class CourierAdmin(ModelAdmin):
 
 
 admin_site.register(Courier, CourierAdmin)
+
+
+admin_site.site_title = 'Курьерская служба CourierPlus'
+admin_site.site_header = 'Курьерская служба CourierPlus'
+admin_site.index_title = 'Администрирование CourierPlus'
