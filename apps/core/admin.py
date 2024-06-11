@@ -2,7 +2,6 @@ from django.contrib import admin
 from django.contrib.admin.helpers import ActionForm
 
 from apps.order.models import Order
-from apps.user.models import Courier
 from common.constants import OrderStatus
 
 
