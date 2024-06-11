@@ -1,0 +1,49 @@
+{% load i18n static %}
+<div class="related-widget-wrapper overflow-visible d-flex align-items-center gap-3" {% if not model_has_limit_choices_to %}data-model-ref="{{ model }}"{% endif %}>
+    {{ rendered_widget }}
+    {% block links %}
+        {% spaceless %}
+        {% if not is_hidden %}
+            <div class="d-flex gap-2">
+                {% if can_change_related %}
+                <a class="related-widget-wrapper-link change-related" id="change_id_{{ name }}"
+                    data-href-template="{{ change_related_template_url }}?{{ url_params }}"
+                    data-popup="yes"
+                    title="{% blocktranslate %}Change selected {{ model }}{% endblocktranslate %}">
+                    <span class="material-symbols-outlined">edit</span>
+                </a>
+                {% endif %}
+                {% if can_add_related %}
+                <a class="related-widget-wrapper-link add-related" id="add_id_{{ name }}"
+                    data-popup="yes"
+                    href="{{ add_related_url }}?{{ url_params }}"
+                    title="{% blocktranslate %}Add another {{ model }}{% endblocktranslate %}">
+                    <span class="material-symbols-outlined">add_circle</span>
+                </a>
+                {% endif %}
+                {% if can_delete_related %}
+                <a class="related-widget-wrapper-link delete-related" id="delete_id_{{ name }}"
+                    data-href-template="{{ delete_related_template_url }}?{{ url_params }}"
+                    data-popup="yes"
+                    title="{% blocktranslate %}Delete selected {{ model }}{% endblocktranslate %}">
+                    <span class="material-symbols-outlined">delete</span>
+                </a>
+                {% endif %}
+                {% if can_view_related %}
+                  <a class="related-widget-wrapper-link view-related" id="view_id_{{ name }}"
+                     data-href-template="{{ change_related_template_url }}?{{ view_related_url_params }}"
+                     title="{% blocktranslate %}View selected {{ model }}{% endblocktranslate %}">
+                    <span class="material-symbols-outlined">visibility</span>
+                  </a>
+                {% endif %}
+            </div>
+        {% endif %}
+        {% endspaceless %}
+    {% endblock %}
+</div>
+
+<style>
+    .related-widget-wrapper .select2-results__options {
+        width: 100%;
+    }
+</style>

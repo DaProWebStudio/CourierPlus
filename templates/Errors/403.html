@@ -1,0 +1,31 @@
+{% extends 'Base/base.html' %}
+{% load static %}
+
+{% block link %}
+
+{% endblock link %}
+
+{% block content %}
+<section class="error-wrap">
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-lg-6 col-md-10">
+				<div class="text-center">
+					<img src="{% static 'images/errors/403.svg' %}" class="img-fluid" alt="">
+					{% if messages %}
+						<ul class="messages">
+							{% for message in messages %}
+								<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+							{% endfor %}
+						</ul>
+					{% else %}
+						<p>Maecenas quis consequat libero, a feugiat eros. Nunc ut lacinia tortor morbi ultricies laoreet ullamcorper phasellus semper</p>
+					{% endif %}
+					<a class="btn theme-bg text-white btn-md" href="index.html">Back To Home</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock %}
+			

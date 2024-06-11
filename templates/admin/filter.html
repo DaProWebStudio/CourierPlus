@@ -1,0 +1,14 @@
+{% load i18n %}
+
+<li class="menu-header small text-uppercase m-0 w-100">
+    <span class="menu-header-text">{% blocktranslate with filter_title=title %} By {{ filter_title }} {% endblocktranslate %}</span>
+</li>
+{% for choice in choices %}
+    <li class="menu-item w-100 {% if choice.selected %} active{% endif %}">
+        <a href="{{ choice.query_string|iriencode }}" class="menu-link m-0">
+            {{ choice.display }}
+        </a>
+    </li>
+{% endfor %}
+
+

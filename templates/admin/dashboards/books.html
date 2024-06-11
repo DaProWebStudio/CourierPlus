@@ -1,0 +1,61 @@
+<!-- Card Statistics -->
+<div class="col-md-4 col-lg-4 col-xl-4 order-0 mb-4">
+    <div class="card h-100">
+        <div class="card-header d-flex align-items-center justify-content-between pb-0">
+            <div class="card-title mb-0">
+                <h5 class="m-0 me-2">Статистика книг</h5>
+            </div>
+        </div>
+        <div class="card-body mb-2">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="d-flex flex-column align-items-center gap-1">
+                    <h2 class="mb-2">{{ books.count }}</h2>
+                    <span>Всего книг</span>
+                </div>
+                <div id="booksStatisticsChart"></div>
+            </div>
+            <ul class="p-0 m-0">
+                <li class="d-flex mb-4 pb-1">
+                    <div class="avatar flex-shrink-0 me-3">
+                            <span class="avatar-initial rounded bg-label-primary">KG</span>
+                    </div>
+                    <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                        <div class="me-2">
+                            <h6 class="mb-0">Кыргызский</h6>
+                        </div>
+                        <div class="user-progress">
+                            <small class="fw-medium">{{ books.kg }}</small>
+                        </div>
+                    </div>
+                </li>
+                <li class="d-flex mb-4 pb-1">
+                    <div class="avatar flex-shrink-0 me-3">
+                        <span class="avatar-initial rounded bg-label-success">RU</span>
+                    </div>
+                    <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                        <div class="me-2">
+                            <h6 class="mb-0">Русский</h6>
+                        </div>
+                        <div class="user-progress">
+                            <small class="fw-medium">{{ books.ru }}</small>
+                        </div>
+                    </div>
+                </li>
+                <li class="d-flex">
+                    <div class="avatar flex-shrink-0 me-3">
+                        <span class="avatar-initial rounded bg-label-info">EN</span>
+                    </div>
+                    <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                        <div class="me-2">
+                            <h6 class="mb-0">Английский</h6>
+                        </div>
+                        <div class="user-progress">
+                            <small class="fw-medium">{{ books.en }}</small>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--/ Card Statistics -->

@@ -1,0 +1,109 @@
+{% load i18n static %}<!DOCTYPE html>
+{% get_current_language as LANGUAGE_CODE %}{% get_current_language_bidi as LANGUAGE_BIDI %}
+<html lang="{{ LANGUAGE_CODE|default:"en-us" }}" dir="{{ LANGUAGE_BIDI|yesno:'rtl,ltr,auto' }}"
+      class="light-style layout-navbar-fixed layout-menu-fixed" data-assets-path="/static/">
+<head>
+    <title>{% block title %}{% endblock %}</title>
+
+    {% block ultrastyle %}{% endblock %}
+
+    {% include 'Base/links.html' %}
+    <link rel="stylesheet" href="{% block stylesheet %}{% static "css/admin/admin.css" %}{% endblock %}">
+
+    {% block extrastyle %}{% endblock %}
+
+    {% if LANGUAGE_BIDI %}
+        <link rel="stylesheet" href="{% block stylesheet_rtl %}{% static "admin/css/rtl.css" %}{% endblock %}">
+    {% endif %}
+
+    {% block extrahead %}{% endblock %}
+
+    {% block responsive %}
+        <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
+        <link rel="stylesheet" href="{% static "admin/css/responsive.css" %}">
+        {% if LANGUAGE_BIDI %}
+            <link rel="stylesheet" href="{% static "admin/css/responsive_rtl.css" %}">{% endif %}
+    {% endblock %}
+
+    {% block blockbots %}
+        <meta name="robots" content="NONE,NOARCHIVE">
+    {% endblock %}
+
+    <script src="{% static 'js/helpers.js' %}"></script>
+    <script src="{% static 'js/template-customizer.js' %}"></script>
+    <script src="{% static 'js/config.js' %}"></script>
+    {% include 'Base/analytics.html' %}
+</head>
+
+<body class="{% if is_popup %}popup {% endif %}{% block bodyclass %}{% endblock %} admin_panel"
+      data-admin-utc-offset="{% now "Z" %}">
+<!-- Container -->
+<div id="container">
+    <div class="layout-wrapper layout-content-navbar">
+        <div class="layout-container">
+            {% if not is_popup and is_nav_sidebar_enabled %}
+                {% block nav-sidebar %}
+                  {% include 'admin/app_list.html' with app_list=available_apps show_changelinks=False %}
+                {% endblock %}
+            {% endif %}
+            <div class="layout-page" {% if is_popup and is_nav_sidebar_enabled %}style="padding: 0 !important;"{% endif %}>
+                {% if not is_popup %}
+                    {% block header %}
+                        {% include 'admin/navbar.html' %}
+                    {% endblock header %}
+                {% endif %}
+                <div class="content-wrapper">
+                    <div class="container-fluid flex-grow-1 container-p-y">
+
+                        {% block nav-breadcrumbs %}
+                            <nav aria-label="{% translate 'Breadcrumbs' %}">
+                                <ol class="breadcrumb">
+                                    {% block breadcrumbs %}
+                                        <li class="breadcrumb-item">
+                                            <a href="{% url 'admin:index' %}">{% translate 'Home' %}</a>
+                                        </li>
+                                        <li class="breadcrumb-item">
+                                            <a href="">{% if title %}{{ title }}{% endif %}</a>
+                                        </li>
+                                    {% endblock breadcrumbs %}
+                                </ol>
+                            </nav>
+                        {% endblock %}
+
+                        {% block messages %}
+                            {% if messages %}
+                                <div class="messages d-flex flex-column gap-2">
+                                    {% for message in messages %}
+                                        <div{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>
+                                            {{ message|capfirst }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        {% endblock messages %}
+
+                        {% block filters %}{% endblock %}
+
+                        {% block content %}
+                            {% block object-tools %}{% endblock %}
+                            {{ content }}
+                        {% endblock %}
+
+                        {% block nav-global %} <div>DDDDD</div>  {% endblock %}
+                    </div>
+                    {% block footer %}
+                        {% include 'Base/footer.html' %}
+                    {% endblock %}
+                </div>
+                <div class="content-backdrop fade"></div>
+            </div>
+        </div>
+        <div class="layout-overlay layout-menu-toggle"></div>
+    </div>
+</div>
+{% include 'admin/modals/change_organization.html' %}
+<!-- END Container -->
+{% include 'Base/script.html' %}
+{% block scripts %}{% endblock scripts %}
+</body>
+</html>

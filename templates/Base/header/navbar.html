@@ -1,0 +1,119 @@
+{% load static get_active_menu_item i18n %}
+<nav class="layout-navbar container-fluid navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+    id="layout-navbar">
+    <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0   d-xl-none ">
+        <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+            <i class="bx bx-menu bx-sm"></i>
+        </a>
+    </div>
+    <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+        <!-- Search -->
+        <div class="navbar-nav align-items-center">
+            <div class="nav-item navbar-search-wrapper mb-0">
+                <a class="nav-item nav-link search-toggler px-0" href="javascript:void(0);">
+                    <i class="bx bx-search bx-sm"></i>
+                    <span class="d-none d-md-inline-block text-muted">Поиск (Ctrl+/)</span>
+                </a>
+            </div>
+        </div>
+        <!-- /Search -->
+
+        <ul class="navbar-nav flex-row align-items-center ms-auto">
+            <!-- Style Switcher -->
+            <li class="nav-item me-2 me-xl-0">
+                <a class="nav-link style-switcher-toggle hide-arrow" href="javascript:void(0);">
+                    <i class='bx bx-sm'></i>
+                </a>
+            </li>
+            <!--/ Style Switcher -->
+
+            <!-- User -->
+            <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+                    <div class="avatar avatar-online">
+                        {% if user.avatar %}
+                            <img src="{{ user.avatar.url }}" alt="" class="w-px-40 h-auto rounded-circle">
+                        {% else %}
+                            <img src="{% static 'images/avatars/avatar.jpg' %}" alt="" class="w-px-40 h-auto rounded-circle">
+                        {% endif %}
+                    </div>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li>
+                        <a class="dropdown-item" href="{% url 'profile' %}">
+                            <div class="d-flex">
+                                <div class="flex-shrink-0 me-3">
+                                    <div class="avatar avatar-online">
+                                        {% if user.avatar %}
+                                            <img src="{{ user.avatar.url }}" alt="" class="w-px-40 h-auto rounded-circle">
+                                        {% else %}
+                                            <img src="{% static 'images/avatars/avatar.jpg' %}" alt="" class="w-px-40 h-auto rounded-circle">
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <span class="fw-semibold d-block">{{ user.get_full_name }}</span>
+                                    <small class="text-muted">{{ user.get_user_type }}</small>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <div class="dropdown-divider"></div>
+                    </li>
+{#                    {% if user.is_staff %} {% active 'dashboards' as dashboard_active %}#}
+{#                        <li>#}
+{#                            {% if dashboard_active == 'active open' %}#}
+{#                                {% url 'index' as dashboard_url %}#}
+{#                            {% else %}#}
+{#                                {% url 'dashboards' as dashboard_url %}#}
+{#                            {% endif %}#}
+{#                            <a class="dropdown-item {{ dashboard_active }}" href="{{ dashboard_url }}">#}
+{#                                <i class="bx bx-user me-2"></i>#}
+{#                                <span class="align-middle">Административная панель</span>#}
+{#                            </a>#}
+{#                        </li>#}
+{#                    {% endif %}#}
+                    {% if user.is_staff %}
+                        <li>
+                            <a class="dropdown-item d-flex gap-2" href="{% url 'admin:index' %}">
+                                <span class="material-symbols-outlined">admin_panel_settings</span>
+                                <span class="align-middle">Административная панель</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                    <li>
+                        <a class="dropdown-item d-flex gap-2" href="{% url 'profile' %}">
+                            <i class="material-symbols-outlined">account_circle</i>
+                            <span class="align-middle">Личный кабинет</span>
+                        </a>
+                    </li>
+                    {% if user.user_type == ROLE_TYPE.ADMINISTRATOR %}
+                        <li>
+                            <a class="dropdown-item d-flex gap-2 cursor-pointer" data-bs-toggle="modal" data-bs-target="#modalCenter">
+                                <i class="material-symbols-outlined">rule_settings</i>
+                                <span class="align-middle">{% trans 'Переключиться' %}</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                    <li>
+                        <div class="dropdown-divider"></div>
+                    </li>
+                    <li>
+                        <a class="dropdown-item d-flex gap-2" href="{% url 'logout' %}">
+                            <i class="material-symbols-outlined">logout</i>
+                            <span class="align-middle">Выйти</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <!--/ User -->
+        </ul>
+    </div>
+
+    <div class="navbar-search-wrapper search-input-wrapper  d-none">
+        <input type="text" class="form-control search-input container-fluid border-0" placeholder="Поиск..."
+            aria-label="Поиск...">
+        <i class="bx bx-x bx-sm search-toggler cursor-pointer"></i>
+    </div>
+</nav>

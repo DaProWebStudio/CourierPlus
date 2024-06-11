@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib import admin, auth
 
+from apps.core.admin import ModelAdmin, admin_site
 from apps.user.models import Courier
 from common.constants import RoleType
 
@@ -21,8 +22,7 @@ class CourierForm(forms.ModelForm):
         fields = '__all__'
 
 
-@admin.register(Courier)
-class CourierAdmin(admin.ModelAdmin):
+class CourierAdmin(ModelAdmin):
     """ Courier admin """
     form = CourierForm
     list_display = ('id', 'email', 'get_full_name', 'phone', 'get_role', 'is_active')
@@ -47,3 +47,6 @@ class CourierAdmin(admin.ModelAdmin):
             fieldsets[1][1]['fields'][0].append('is_staff')
             fieldsets[1][1]['fields'][0].append('is_superuser')
         return fieldsets
+
+
+admin_site.register(Courier, CourierAdmin)

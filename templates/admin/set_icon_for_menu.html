@@ -1,0 +1,34 @@
+<!-- App User -->
+{% if model_name == 'UserActivateCode'  %}
+    <span class="menu-icon material-symbols-outlined">pin</span>
+{% elif model_name == 'User'  %}
+    <span class="menu-icon material-symbols-outlined">manage_accounts</span>
+<!-- App Book -->
+{% elif model_name == 'BookMark'  %}
+    <span class="menu-icon material-symbols-outlined">bookmarks</span>
+{% elif model_name == 'Book'  %}
+    <span class="menu-icon material-symbols-outlined">book_2</span>
+<!-- App Classifier -->
+{% elif model_name == 'Subject'  %}
+    <span class="menu-icon material-symbols-outlined">collections_bookmark</span>
+{% elif model_name == 'Specialty'  %}
+    <span class="menu-icon material-symbols-outlined">school</span>
+<!-- App Organization -->
+{% elif model_name == 'AcademicGroup'  %}
+    <span class="menu-icon material-symbols-outlined">group</span>
+{% elif model_name == 'BalanceTransactionHistory'  %}
+    <span class="menu-icon material-symbols-outlined">history</span>
+{% elif model_name == 'Organization'  %}
+    <span class="menu-icon material-symbols-outlined">source_environment</span>
+<!-- App Tracking -->
+{% elif model_name == 'Browser'  %}
+    <span class="menu-icon material-symbols-outlined">travel_explore</span>
+{% elif model_name == 'AuthTracking'  %}
+    <span class="menu-icon material-symbols-outlined">exit_to_app</span>
+{% elif model_name == 'OperatingSystem'  %}
+    <span class="menu-icon material-symbols-outlined">display_settings</span>
+{% elif model_name == 'Device'  %}
+    <span class="menu-icon material-symbols-outlined">devices_other</span>
+{% elif model_name == 'Group'  %}
+    <span class="menu-icon material-symbols-outlined">folder_managed</span>
+{% endif %}

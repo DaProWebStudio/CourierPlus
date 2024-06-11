@@ -1,0 +1,82 @@
+<!-- Card Statistics -->
+<div class="col-md-4 col-lg-4 col-xl-4 order-0 mb-4">
+    <div class="card h-100">
+        <div class="card-header d-flex align-items-center justify-content-between pb-0">
+            <div class="card-title mb-0">
+                <h5 class="m-0 me-2">Статистика заказов</h5>
+            </div>
+        </div>
+        <div class="card-body mb-2">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="d-flex flex-column align-items-center gap-1">
+                    <h2 class="mb-2">{{ order.count }}</h2>
+                    <span>Всего заказов</span>
+                </div>
+                <div id="orderStatisticsChart"></div>
+            </div>
+            <ul class="p-0 m-0">
+                <li class="d-flex mb-4 pb-1">
+                    <div class="avatar flex-shrink-0 me-3">
+                        <span class="avatar-initial rounded bg-label-primary">
+                            <span class="material-symbols-outlined">man</span>
+                        </span>
+                    </div>
+                    <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                        <div class="me-2">
+                            <h6 class="mb-0">В обработке</h6>
+                        </div>
+                        <div class="user-progress">
+                            <small class="fw-medium">{{ order.pending }}</small>
+                        </div>
+                    </div>
+                </li>
+                <li class="d-flex mb-4 pb-1">
+                    <div class="avatar flex-shrink-0 me-3">
+                        <span class="avatar-initial rounded bg-label-success">
+                            <span class="material-symbols-outlined">woman</span>
+                        </span>
+                    </div>
+                    <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                        <div class="me-2">
+                            <h6 class="mb-0">В пути</h6>
+                        </div>
+                        <div class="user-progress">
+                            <small class="fw-medium">{{ order.in_transit }}</small>
+                        </div>
+                    </div>
+                </li>
+                <li class="d-flex">
+                    <div class="avatar flex-shrink-0 me-3">
+                        <span class="avatar-initial rounded bg-label-secondary">
+                            <span class="material-symbols-outlined">block</span>
+                        </span>
+                    </div>
+                    <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                        <div class="me-2">
+                            <h6 class="mb-0">Доставлено</h6>
+                        </div>
+                        <div class="user-progress">
+                            <small class="fw-medium">{{ order.delivered }}</small>
+                        </div>
+                    </div>
+                </li>
+                <li class="d-flex">
+                    <div class="avatar flex-shrink-0 me-3">
+                        <span class="avatar-initial rounded bg-label-secondary">
+                            <span class="material-symbols-outlined">block</span>
+                        </span>
+                    </div>
+                    <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                        <div class="me-2">
+                            <h6 class="mb-0">Отменено</h6>
+                        </div>
+                        <div class="user-progress">
+                            <small class="fw-medium">{{ order.cancelled }}</small>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--/ Card Statistics -->

@@ -1,12 +1,13 @@
 from django.contrib import admin, auth
 
+from apps.core.admin import ModelAdmin, admin_site
 from apps.order import models
 from apps.user.models import Courier
 
 User = auth.get_user_model()
 
 
-class AbstractOrderAdmin(admin.ModelAdmin):
+class AbstractOrderAdmin(ModelAdmin):
     list_display = ('id', 'name', 'sender_address', 'receiver_address', 'price', 'courier', 'status', 'created_at')
     search_fields = ['id', 'name', 'sender_address', 'receiver_address']
     list_display_links = ['id', 'name']
@@ -35,14 +36,12 @@ class AbstractOrderAdmin(admin.ModelAdmin):
         return False
 
 
-@admin.register(models.OrderPending)
-class OrderAdmin(AbstractOrderAdmin):
+class OrderPendingAdmin(AbstractOrderAdmin):
     """ Order admin """
     list_editable = ['courier', 'status']
 
 
-@admin.register(models.OrderInProgress)
-class OrderAdmin(AbstractOrderAdmin):
+class OrderInProgressAdmin(AbstractOrderAdmin):
     """ Order admin """
     list_editable = ['courier', 'status']
 
@@ -50,8 +49,7 @@ class OrderAdmin(AbstractOrderAdmin):
         return False
 
 
-@admin.register(models.OrderHistory)
-class OrderAdmin(AbstractOrderAdmin):
+class OrderHistoryAdmin(AbstractOrderAdmin):
     """ Order admin """
     pass
 
@@ -60,3 +58,8 @@ class OrderAdmin(AbstractOrderAdmin):
 
     def has_change_permission(self, request, obj=None):
         return False
+
+
+admin_site.register(models.OrderPending, OrderPendingAdmin)
+admin_site.register(models.OrderInProgress, OrderInProgressAdmin)
+admin_site.register(models.OrderHistory, OrderHistoryAdmin)

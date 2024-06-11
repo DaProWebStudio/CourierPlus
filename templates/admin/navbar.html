@@ -1,0 +1,114 @@
+{% load static get_active_menu_item i18n %}
+<nav class="layout-navbar container-fluid navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+     id="layout-navbar">
+    <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0   d-xl-none ">
+        <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+            <i class="bx bx-menu bx-sm"></i>
+        </a>
+    </div>
+    <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+        <!-- title -->
+        <div class="navbar-nav align-items-center d-none d-lg-block">
+            {{ title }}
+        </div>
+        <!-- /title -->
+
+        <ul class="navbar-nav flex-row align-items-center ms-auto">
+            <!-- Style Switcher -->
+            <li class="nav-item me-2 me-xl-0">
+                <a class="nav-link style-switcher-toggle hide-arrow" href="javascript:void(0);">
+                    <i class='bx bx-sm'></i>
+                </a>
+            </li>
+
+            {% if has_permission %}
+                <!-- User -->
+                <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                    <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+                        <div class="avatar avatar-online">
+                            {% if user.avatar %}
+                                <img src="{{ user.avatar.url }}" alt="" class="w-px-40 h-auto rounded-circle">
+                            {% else %}
+                                <img src="{% static 'images/avatars/avatar.jpg' %}" alt=""
+                                     class="w-px-40 h-auto rounded-circle">
+                            {% endif %}
+                        </div>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li>
+                            <a class="dropdown-item">
+                                <div class="d-flex">
+                                    <div class="flex-shrink-0 me-3">
+                                        <div class="avatar avatar-online">
+                                            {% if user.avatar %}
+                                                <img src="{{ user.avatar.url }}" alt=""
+                                                     class="w-px-40 h-auto rounded-circle">
+                                            {% else %}
+                                                <img src="{% static 'images/avatars/avatar.jpg' %}" alt=""
+                                                     class="w-px-40 h-auto rounded-circle">
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <span class="fw-semibold d-block">{{ user.get_full_name }}</span>
+                                        <small class="text-muted">{{ user.get_user_type }}</small>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <div class="dropdown-divider"></div>
+                        </li>
+                        {% block userlinks %}
+                            {% if site_url %}
+                                <li>
+                                    <a class="dropdown-item d-flex gap-2" href="{{ site_url }}">
+                                        <i class="material-symbols-outlined">open_in_browser</i>
+                                        <span class="align-middle">{% translate 'View site' %}</span>
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% if user.user_type == ROLE_TYPE.ADMINISTRATOR %}
+                                <li>
+                                    <a class="dropdown-item d-flex gap-2 cursor-pointer" data-bs-toggle="modal" data-bs-target="#modalCenter">
+                                        <i class="material-symbols-outlined">rule_settings</i>
+                                        <span class="align-middle">{% trans 'Переключиться' %}</span>
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% if user.is_active and user.is_staff %}
+                                {% url 'django-admindocs-docroot' as docsroot %}
+                                {% if docsroot %}
+                                    <li>
+                                        <a class="dropdown-item" href="{{ docsroot }}">
+                                            <i class="bx bx-user me-2"></i>
+                                            <span class="align-middle">{% translate 'Documentation' %}</span>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            {% endif %}
+                            {% if user.has_usable_password %}
+                                <li>
+                                    <a class="dropdown-item d-flex gap-2" href="{% url 'admin:password_change' %}">
+                                        <i class="material-symbols-outlined">lock_reset</i>
+                                        <span class="align-middle">{% translate 'Change password' %}</span>
+                                    </a>
+                                </li>
+                            {% endif %}
+                            <li>
+                                <div class="dropdown-divider"></div>
+                            </li>
+                            <li>
+                                <a class="dropdown-item d-flex gap-2" href="{% url 'admin:logout' %}">
+                                    <i class="material-symbols-outlined">logout</i>
+                                    <span class="align-middle">Выйти</span>
+                                </a>
+                            </li>
+                        {% endblock %}
+                    </ul>
+                </li>
+            {% endif %}
+            <!--/ User -->
+        </ul>
+    </div>
+</nav>

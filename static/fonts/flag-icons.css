@@ -1,0 +1,45 @@
+.flag-icon-background, .flag-icon {
+	background-size: contain;
+	background-position: 50%;
+	background-repeat: no-repeat
+}
+.flag-icon {
+	position: relative;
+	display: inline-block;
+	width: 1.3333333333em;
+	line-height: 1em
+}
+.flag-icon:before {
+	content: " "
+}
+.flag-icon.flag-icon-squared {
+	width: 1em
+}
+
+.flag-icon-kg {
+	background-image: url(../fonts/flags/4x3/kg.svg)
+}
+.flag-icon-kg.flag-icon-squared {
+	background-image: url(../fonts/flags/1x1/kg.svg)
+}
+
+.flag-icon-kz {
+	background-image: url(../fonts/flags/4x3/kz.svg)
+}
+.flag-icon-kz.flag-icon-squared {
+	background-image: url(../fonts/flags/1x1/kz.svg)
+}
+
+.flag-icon-ru {
+	background-image: url(../fonts/flags/4x3/ru.svg)
+}
+.flag-icon-ru.flag-icon-squared {
+	background-image: url(../fonts/flags/1x1/ru.svg)
+}
+
+.flag-icon-en {
+	background-image: url(../fonts/flags/4x3/us.svg)
+}
+.flag-icon-en.flag-icon-squared {
+	background-image: url(../fonts/flags/1x1/us.svg)
+}

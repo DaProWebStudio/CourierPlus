@@ -1,0 +1,15 @@
+{% load i18n %}
+<div class="input-group" style="max-width: 100% !important;">
+    <span class="input-group-text d-none d-lg-inline-block" id="basic-addon-search31"><i class="bx bx-search"></i></span>
+    <input data-search="data-search" type="text" class="form-control" style="" name="{{ search_var }}" value="{{ cl.query }}">
+    <button class="btn btn-outline-primary" type="submit">{% translate 'Search' %}</button>
+</div>
+
+<style>
+    @media (max-width: 625px) {
+        input[data-search="data-search"] {
+            border-bottom-left-radius: 0.375rem !important;
+            border-top-left-radius: 0.375rem !important;
+        }
+    }
+</style>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+{% load static i18n qr_code %}
+{% get_current_language as LANGUAGE_CODE %}
+<html lang="{{ LANGUAGE_CODE }}" class="light-style layout-navbar-fixed layout-menu-fixed" data-assets-path="/static/">
+<head>
+	<meta charset="utf-8" />
+	<meta name="author" content="El-Kitep" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+	<title>
+		{% block title %}{% endblock title %} | {{ ORGANIZATION.SHORT_TITLE }}
+	</title>
+	{% block description %}
+        <meta property="og:title" content="{{ ORGANIZATION.TITLE }}">
+		<meta property="og:image" content="{% static "images/logo/logo-main.png" %}">
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="{{ CURRENT_SITE_URL }}">
+        <meta property="og:title" content="{{ ORGANIZATION.TITLE }}">
+        <meta property="og:description" content="{{ ORGANIZATION.DESCRIPTION }}">
+        <meta property="og:image" content="{% static "images/logo/logo-main.png" %}">
+
+        <!-- Twitter -->
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:url" content="{{ CURRENT_SITE_URL }}">
+        <meta property="twitter:title" content="{{ ORGANIZATION.TITLE }}">
+        <meta property="twitter:description" content="{{ ORGANIZATION.DESCRIPTION }}">
+        <meta property="twitter:image" content="{% static "images/logo/logo-main.png" %}">
+	{% endblock description %}
+
+	{% include 'Base/links.html' %}
+	{% block links %}{% endblock links %}
+    <script src="{% static 'js/helpers.js' %}"></script>
+    <script src="{% static 'js/template-customizer.js' %}"></script>
+    <script src="{% static 'js/config.js' %}"></script>
+</head>
+<body>
+	<div class="layout-wrapper layout-content-navbar">
+		<div class="layout-container">
+			{% include 'Dashboard/header/menu.html' %}
+			<div class="layout-page">
+				{% include 'Base/header/navbar.html' %}
+				<div class="content-wrapper">
+					<div class="container-fluid flex-grow-1 container-p-y">
+						{% block content %}{% endblock content %}
+					</div>
+					{% include 'Base/footer.html' %}
+				</div>
+				<div class="content-backdrop fade"></div>
+			</div>
+		</div>
+		<div class="layout-overlay layout-menu-toggle"></div>
+	</div>
+    {% include 'Base/messages.html' %}
+
+	{% include 'Base/script.html' %}
+    <script src="{% static 'js/main.js' %}"></script>
+	{% block script %}{% endblock script %}
+</body>
+</html>

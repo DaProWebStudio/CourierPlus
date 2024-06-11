@@ -1,0 +1,76 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block ultrastyle %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static "plugins/apex-charts/apex-charts.css" %}">
+{% endblock %}
+
+{% block coltype %}colMS{% endblock %}
+
+{% block bodyclass %}{{ block.super }} dashboard{% endblock %}
+
+{% block nav-breadcrumbs %}{% endblock %}
+
+{% block nav-sidebar %}{% endblock %}
+
+{% block content %}
+    {% include "admin/app_list.html" with app_list=app_list show_changelinks=True %}
+    <div class="row">
+        {% include 'admin/dashboards/students.html' %}
+    </div>
+{% endblock content %}
+
+{% block scripts %}
+    <script src="{% static 'plugins/apex-charts/apexcharts.js' %}"></script>
+    <script src="{% static 'plugins/chartjs/chartjs.js' %}"></script>
+    <script src="{% static 'js/dashboards-analytics.js' %}"></script>
+    <script>
+        let cardColor, headingColor, axisColor, shadeColor, borderColor;
+
+        cardColor = config.colors.white;
+        headingColor = config.colors.headingColor;
+        axisColor = config.colors.axisColor;
+        borderColor = config.colors.borderColor;
+
+        // orderStatisticsChart
+        // --------------------------------------------------------------------
+        const chartOrderStatistics = document.querySelector('#orderStatisticsChart'),
+            OrderChartConfig = {
+                chart: {
+                    height: 165,
+                    width: 130,
+                    type: 'donut'
+                },
+                labels: ['В обработке', 'В пути', 'Доставлено', 'Отменено'],
+                series: [{{ order.pending }}, {{ order.in_transit }}, {{ order.delivered }}, {{ order.cancelled }}],
+                colors: [config.colors.yellow, config.colors.primary, config.colors.success, config.colors.danger],
+                stroke: {
+                    width: 5,
+                    colors: cardColor
+                },
+                dataLabels: {
+                    enabled: false,
+                    formatter: function (val, opt) {
+                        return parseInt(val);
+                    }
+                },
+                legend: {
+                    show: false
+                },
+                grid: {
+                    padding: {
+                        top: 0,
+                        bottom: 0,
+                        right: 15
+                    }
+                },
+            };
+        if (typeof chartOrderStatistics !== undefined && chartOrderStatistics !== null) {
+            const statisticsChart = new ApexCharts(chartOrderStatistics, OrderChartConfig);
+            console.log(statisticsChart)
+            statisticsChart.render();
+        }
+
+    </script>
+{% endblock %}

@@ -1,0 +1,9 @@
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="messages" id="messageEngine">
+            <input type="hidden" id="message_tag" value="{{ message.tags }}">
+            <input type="hidden" id="message_text" value="{{ message|safe }}">
+        </div>
+    {% endfor %}
+{% endif %}

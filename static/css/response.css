@@ -1,0 +1,111 @@
+@media (max-width: 1400px) {
+
+}
+
+@media (max-width: 1200px) {
+    .book-detail-thumbnail img {
+        width: 150px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .book-detail-info h2 {
+        font-size: calc(1rem + 0.9vw);
+    }
+    .book-detail-info .list-unstyled li {
+        font-size: calc(.5rem + 0.9vw);
+    }
+}
+
+@media (max-width: 991px) {
+
+}
+
+@media (min-width: 767px) {
+    .authentication-form {
+        padding-left: 30px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .authentication-info {
+        padding: .5rem !important;
+    }
+    .authentication-info .organization img {
+        width: 180px;
+    }
+    .authentication-info h2 {
+        font-size: 20px;
+        margin: 15px 0;
+    }
+    .authentication-info p {
+        font-size: 17px;
+        text-indent: 20px;
+    }
+}
+
+@media (max-width: 653px) {
+    .theme-header {
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+    }
+    .theme-header div {
+        margin-top: 10px;
+        width: 100%;
+    }
+}
+
+@media (max-width: 525px) {
+    .authentication-wrapper .auth-input-wrapper .auth-input {
+        font-size: 1.125rem;
+    }
+    .authentication {
+        padding: .5rem;
+        gap: 30px;
+    }
+
+    .authentication-info {
+        max-width: 500px;
+        padding: .5rem !important;
+    }
+    .authentication-info .organization img {
+        width: 150px;
+    }
+
+    .authentication-info p {
+        font-size: 15px;
+        text-indent: 20px;
+    }
+
+    .inline-spacing button {
+        padding: 5px 20px;
+    }
+
+    /* for Book detail */
+    .book-detail-thumbnail {
+        margin-bottom: 20px;
+    }
+    .book-detail-thumbnail img {
+        width: 180px;
+    }
+    .book-detail {
+        display: block;
+        text-align: center;
+    }
+    .jstree .jstree-container-ul .jstree-anchor {
+        font-size: 16px !important;
+    }
+}
+
+@media (max-width: 420px) {
+
+}
+
+@media (max-width: 375px) {
+
+}
+
+@media (max-width: 320px) {
+
+}

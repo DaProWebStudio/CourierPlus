@@ -1,0 +1,12 @@
+{% load i18n %}
+
+<span>
+    {% blocktranslate count counter=cl.result_count %}{{ counter }} result {% plural %}{{ counter }} results{% endblocktranslate %}
+    (<a href="?{% if cl.is_popup %}{{ is_popup_var }}=1{% endif %}">
+        {% if cl.show_full_result_count %}
+            {% blocktranslate with full_result_count=cl.full_result_count %}{{ full_result_count }} total {% endblocktranslate %}
+        {% else %}
+            {% translate "Show all" %}
+        {% endif %}
+    </a>)
+</span>

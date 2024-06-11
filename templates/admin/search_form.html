@@ -1,0 +1,44 @@
+{% load i18n static %}
+
+{% if cl.search_fields %}
+    <form method="get" class="mb-2">
+        <!-- DIV needed for valid HTML -->
+        {% if show_result_count %}
+            <div class="row ">
+                <div class="col-lg-8 col-12">
+                    {% include 'admin/search/input.html' %}
+                </div>
+                <div class="col-lg-4 col-12 d-flex align-items-center justify-content-between">
+                    {% include 'admin/search/show_results.html' %}
+                    {% if cl.has_filters %}
+                        <button class="btn btn-primary float-end" type="button" data-bs-toggle="offcanvas" data-bs-target="#filters" aria-controls="filters">
+                            {% translate 'Filter' %}
+                        </button>
+                    {% endif %}
+                </div>
+            </div>
+        {% else %}
+            <div class="row">
+                <div class="col-lg-10 col-9">
+                    {% include 'admin/search/input.html' %}
+                </div>
+                {% if cl.has_filters %}
+                    <div class="col-lg-2 col-3">
+                        <button class="btn btn-primary d-flex align-items-center gap-lg-2 float-end" type="button" data-bs-toggle="offcanvas" data-bs-target="#filters" aria-controls="filters">
+                            <span class="material-symbols-outlined">tune</span>
+                            <span class="d-none d-lg-inline-block">{% translate 'Filter' %}</span>
+                        </button>
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
+        {% for pair in cl.params.items %}
+            {% if pair.0 != search_var %}<input type="hidden" name="{{ pair.0 }}" value="{{ pair.1 }}">
+            {% endif %}
+        {% endfor %}
+        {% if cl.search_help_text %}
+            <br class="clear">
+            <div class="help" id="searchbar_helptext">{{ cl.search_help_text }}</div>
+        {% endif %}
+    </form>
+{% endif %}

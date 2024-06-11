@@ -1,0 +1,18 @@
+{% load static %}
+<!-- ============================= All JS ================================= -->
+<script src="{% static 'plugins/jquery/jquery.js' %}"></script>
+<script src="{% static 'plugins/popper/popper.js' %}"></script>
+<script src="{% static 'js/bootstrap.js' %}"></script>
+<script src="{% static 'plugins/typeahead-js/typeahead.js' %}"></script>
+<script src="{% static 'plugins/perfect-scrollbar/perfect-scrollbar.js' %}"></script>
+<script src="{% static 'js/menu.js' %}"></script>
+<script src="{% static 'js/template-customizer.js' %}"></script>
+<script src="{% static 'plugins/sweetalert2/sweetalert2.js' %}"></script>
+<script src="{% static 'js/messageEngine.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
+<script src="{% static 'plugins/select2/select2.js' %}"></script>
+<script src="{% static 'plugins/bootstrap-select/bootstrap-select.js' %}"></script>
+<script src="{% static 'js/forms/form-select.js' %}"></script>
+{% if user.is_authenticated and user.user_type == ROLE_TYPE.ADMINISTRATOR %}
+    <script src="{% static 'js/forms/form-change-organization.js' %}"></script>
+{% endif %}
