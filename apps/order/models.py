@@ -23,10 +23,11 @@ class Order(models.Model):
     name = models.CharField("Название", max_length=100)
     sender_address = models.CharField("Адрес отправителя", max_length=255)
     receiver_address = models.CharField("Адрес отправителя", max_length=255)
+    price = models.DecimalField("Стоимость заказа", max_digits=10, decimal_places=2)
     pays_for = models.CharField("Кто оплачивает услугу", max_length=255, choices=PAYS_FOR_CHOICES)
     status = models.CharField("Статус заказа", max_length=255, choices=STATUS_CHOICES)
     comment = models.TextField("Комментарии к заказу", blank=True, null=True)
-    courier = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    courier = models.ForeignKey(User, on_delete=models.PROTECT, blank=True, null=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

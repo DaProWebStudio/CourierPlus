@@ -1,11 +1,4 @@
-import random
-
-from django import forms
 from django.contrib import admin, auth
-from django.contrib.auth.hashers import check_password, make_password
-from django.contrib.auth.models import Group
-from django.utils.safestring import mark_safe
-from django.contrib.auth.admin import GroupAdmin
 
 from apps.order import models
 from apps.user.models import Courier
@@ -13,38 +6,44 @@ from apps.user.models import Courier
 User = auth.get_user_model()
 
 
-class OrderForm(forms.ModelForm):
-    courier = forms.ModelChoiceField(
-        label="Курьер",
-        queryset=Courier.objects.all(),
-    )
-
-    class Meta:
-        model = models.Order
-        fields = '__all__'
-
-
 class AbstractOrderAdmin(admin.ModelAdmin):
-    form = OrderForm
-    list_display = ('id', 'name', 'sender_address', 'receiver_address', 'courier', 'status', 'created_at')
-    search_fields = ['id', 'name', 'sender_address', 'receiver_address', 'courier']
+    list_display = ('id', 'name', 'sender_address', 'receiver_address', 'price', 'courier', 'status', 'created_at')
+    search_fields = ['id', 'name', 'sender_address', 'receiver_address']
     list_display_links = ['id', 'name']
     ordering = ("-id",)
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "courier":
+            kwargs["queryset"] = Courier.objects.all()  # Пример фильтрации по группе пользователей
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+    # Оставить возможность удалять, если нужно
+    def has_delete_permission(self, request, obj=None):
+        return False
 
 
 @admin.register(models.OrderPending)
 class OrderAdmin(AbstractOrderAdmin):
     """ Order admin """
-    pass
+    list_editable = ['courier', 'status']
 
 
 @admin.register(models.OrderInProgress)
 class OrderAdmin(AbstractOrderAdmin):
     """ Order admin """
-    pass
+    list_editable = ['courier', 'status']
+
+    def has_add_permission(self, request):
+        return False
 
 
 @admin.register(models.OrderHistory)
 class OrderAdmin(AbstractOrderAdmin):
     """ Order admin """
     pass
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
