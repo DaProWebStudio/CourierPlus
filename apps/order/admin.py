@@ -3,6 +3,7 @@ from django.contrib import admin, auth
 from apps.core.admin import ModelAdmin, admin_site
 from apps.order import models
 from apps.user.models import Courier
+from common.constants import RoleType
 
 User = auth.get_user_model()
 
@@ -27,6 +28,12 @@ class AbstractOrderAdmin(ModelAdmin):
     )
     readonly_fields = ('created_at',)
 
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        if request.user.role == RoleType.SUPER_ADMIN.value:
+            return qs
+        return qs.filter(courier_id=request.user.id)
+
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == "courier":
             kwargs["queryset"] = Courier.objects.all()  # Пример фильтрации по группе пользователей
@@ -35,15 +42,34 @@ class AbstractOrderAdmin(ModelAdmin):
     def has_delete_permission(self, request, obj=None):
         return False
 
+    def get_readonly_fields(self, request, obj=None):
+        if request.user.role != RoleType.SUPER_ADMIN.value:
+            return [field.name for field in self.model._meta.fields]
+        return self.readonly_fields
+
+    def get_list_editable(self, request):
+        if request.user.role == RoleType.SUPER_ADMIN.value:
+            return ['courier', 'status']
+        return ['status']
+
+    def get_changelist_instance(self, request):
+        self.list_editable = self.get_list_editable(request)
+        return super().get_changelist_instance(request)
+
 
 class OrderPendingAdmin(AbstractOrderAdmin):
     """ Order admin """
-    list_editable = ['courier', 'status']
+    list_editable = []
+
+    def has_add_permission(self, request):
+        if request.user.role == RoleType.COURIER.value:
+            return False
+        return super().has_add_permission(request)
 
 
 class OrderInProgressAdmin(AbstractOrderAdmin):
     """ Order admin """
-    list_editable = ['courier', 'status']
+    list_editable = []
 
     def has_add_permission(self, request):
         return False

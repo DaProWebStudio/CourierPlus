@@ -30,6 +30,11 @@ class CourierAdmin(ModelAdmin):
     list_display_links = ['id', 'email']
     ordering = ("-id",)
 
+    def get_model_perms(self, request):
+        if request.user.role == RoleType.SUPER_ADMIN.value:
+            return super().get_model_perms(request)
+        return {}
+
     def get_fieldsets(self, request, obj=None):
         fieldsets = (
             ('Персональные данные', {"fields": (
