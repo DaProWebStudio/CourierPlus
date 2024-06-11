@@ -1,0 +1,50 @@
+version: "3.5"
+services:
+  courier_plus:
+    container_name: courier_plus
+    image: courier_plus
+    build:
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+    ports:
+      - "8013:8000"
+    command: python manage.py runserver 0.0.0.0:8000
+    depends_on:
+      - courier_plus_db
+      - redis
+
+  courier_plus_db:
+    image: postgres:14.6-alpine
+    container_name: courier_plus_db
+    hostname: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - ../courier_plus-data:/var/lib/postgresql/data/
+    env_file:
+      - ./.env
+    environment:
+      - POSTGRES_USER=${DATABASE_USER}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+      - POSTGRES_DB=${DATABASE_NAME}
+
+  redis:
+    image: redis:7.0-alpine
+    container_name: courier_plus_redis
+    hostname: redis
+
+  courier_plus_worker:
+    build:
+      context: .
+    container_name: courier_plus_worker
+    hostname: worker
+    command: celery --app config worker -l info
+    volumes:
+      - .:/app
+    links:
+      - redis
+    depends_on:
+      - redis
+      - courier_plus_db
+      - courier_plus
