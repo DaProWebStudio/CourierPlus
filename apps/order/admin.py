@@ -7,7 +7,7 @@ from django.contrib.auth.models import Group
 from django.utils.safestring import mark_safe
 from django.contrib.auth.admin import GroupAdmin
 
-from apps.order.models import Order
+from apps.order import models
 from apps.user.models import Courier
 
 User = auth.get_user_model()
@@ -20,15 +20,31 @@ class OrderForm(forms.ModelForm):
     )
 
     class Meta:
-        model = Order
+        model = models.Order
         fields = '__all__'
 
 
-@admin.register(Order)
-class OrderAdmin(admin.ModelAdmin):
-    """ Order admin """
+class AbstractOrderAdmin(admin.ModelAdmin):
     form = OrderForm
     list_display = ('id', 'name', 'sender_address', 'receiver_address', 'courier', 'status', 'created_at')
     search_fields = ['id', 'name', 'sender_address', 'receiver_address', 'courier']
     list_display_links = ['id', 'name']
     ordering = ("-id",)
+
+
+@admin.register(models.OrderPending)
+class OrderAdmin(AbstractOrderAdmin):
+    """ Order admin """
+    pass
+
+
+@admin.register(models.OrderInProgress)
+class OrderAdmin(AbstractOrderAdmin):
+    """ Order admin """
+    pass
+
+
+@admin.register(models.OrderHistory)
+class OrderAdmin(AbstractOrderAdmin):
+    """ Order admin """
+    pass

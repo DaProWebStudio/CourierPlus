@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 
+from apps.order.managers import get_order_manager
 from common.constants import OrderStatus
 
 
@@ -37,3 +38,36 @@ class Order(models.Model):
         db_table = "order"
         verbose_name = "Заказ"
         verbose_name_plural = "Заказы"
+
+
+class OrderPending(Order):
+    objects = get_order_manager(
+        [OrderStatus.PENDING.value]
+    )
+
+    class Meta:
+        proxy = True
+        verbose_name = "В обработке"
+        verbose_name_plural = "В обработке"
+
+
+class OrderInProgress(Order):
+    objects = get_order_manager(
+        [OrderStatus.IN_TRANSIT.value]
+    )
+
+    class Meta:
+        proxy = True
+        verbose_name = "В работе"
+        verbose_name_plural = "В работе"
+
+
+class OrderHistory(Order):
+    objects = get_order_manager(
+        [OrderStatus.DELIVERED.value, OrderStatus.CANCELLED.value]
+    )
+
+    class Meta:
+        proxy = True
+        verbose_name = "История"
+        verbose_name_plural = "История"
