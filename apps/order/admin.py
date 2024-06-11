@@ -11,13 +11,26 @@ class AbstractOrderAdmin(admin.ModelAdmin):
     search_fields = ['id', 'name', 'sender_address', 'receiver_address']
     list_display_links = ['id', 'name']
     ordering = ("-id",)
+    fieldsets = (
+        (
+            'Персональные данные', {
+                "fields": (
+                    "name",
+                    ("sender_address", "receiver_address"),
+                    ("price", "pays_for"),
+                    ("courier", "status"),
+                    'created_at'
+                )
+            }
+        ),
+    )
+    readonly_fields = ('created_at',)
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == "courier":
             kwargs["queryset"] = Courier.objects.all()  # Пример фильтрации по группе пользователей
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
-    # Оставить возможность удалять, если нужно
     def has_delete_permission(self, request, obj=None):
         return False
 
