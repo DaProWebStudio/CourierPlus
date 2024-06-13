@@ -47,3 +47,9 @@ class CourierManager(BaseUserManager):
     def get_queryset(self):
         query = super(CourierManager, self).get_queryset()
         return query.filter(role=RoleType.COURIER.value)
+
+
+class DispatcherManager(BaseUserManager):
+    def get_queryset(self):
+        query = super(DispatcherManager, self).get_queryset()
+        return query.filter(role=RoleType.DISPATCHER.value)

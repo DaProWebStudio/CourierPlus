@@ -6,7 +6,7 @@ from django.utils.translation import gettext_lazy as _
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
 
-from .managers import UserManager, CourierManager
+from .managers import UserManager, CourierManager, DispatcherManager
 from common import upload_to_file
 from common.constants import RoleType, GenderType
 from .services import get_permissions_for_role
@@ -66,15 +66,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         if self.first_name and self.last_name:
             return f'{self.first_name[0]}{self.last_name[0]}'
 
-    def save(self, *args, **kwargs):
-        if self.role == RoleType.COURIER.value:
-            self.user_permissions.set(get_permissions_for_role(self.role))
-            self.is_staff = True
-        if self.role == RoleType.DISPATCHER.value:
-            self.user_permissions.set(get_permissions_for_role(self.role))
-            self.is_staff = True
-        super().save(*args, **kwargs)
-
 
 class Courier(User):
     objects = CourierManager()
@@ -83,3 +74,25 @@ class Courier(User):
         proxy = True
         verbose_name = "Курьер"
         verbose_name_plural = "Курьеры"
+
+    def save(self, *args, **kwargs):
+        self.role = RoleType.COURIER.value
+        self.is_staff = True
+        super(Courier, self).save(*args, **kwargs)
+        self.user_permissions.set(get_permissions_for_role(RoleType.COURIER.value))
+
+
+class Dispatcher(User):
+    objects = DispatcherManager()
+
+    class Meta:
+        proxy = True
+        verbose_name = "Диспетчер"
+        verbose_name_plural = "Диспетчеры"
+
+    def save(self, *args, **kwargs):
+        self.role = RoleType.DISPATCHER.value
+        self.is_staff = True
+        super(Dispatcher, self).save(*args, **kwargs)
+        self.user_permissions.set(get_permissions_for_role(RoleType.DISPATCHER.value))
+

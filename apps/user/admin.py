@@ -3,38 +3,18 @@ from django.contrib import admin, auth
 from django.contrib.auth.hashers import check_password, make_password
 
 from apps.core.admin import ModelAdmin, admin_site
-from apps.user.models import Courier
+from apps.user.models import Courier, Dispatcher
 from common.constants import RoleType
 
 User = auth.get_user_model()
 
 
-class CourierForm(forms.ModelForm):
-    ROLE_TYPE = (
-        (RoleType.COURIER.value, 'Курьер'),
-    )
-    role = forms.ChoiceField(
-        label="Роль",
-        choices=ROLE_TYPE,
-    )
-
-    class Meta:
-        model = Courier
-        fields = '__all__'
-
-
-class CourierAdmin(ModelAdmin):
-    """ Courier admin """
-    form = CourierForm
+class AbstractUserAdmin(ModelAdmin):
+    """ Abstract user admin """
     list_display = ('id', 'email', 'get_full_name', 'phone', 'get_role', 'is_active')
     search_fields = ['id', 'email', 'get_full_name']
     list_display_links = ['id', 'email']
     ordering = ("-id",)
-
-    def get_model_perms(self, request):
-        if request.user.role == RoleType.SUPER_ADMIN.value:
-            return super().get_model_perms(request)
-        return {}
 
     def get_fieldsets(self, request, obj=None):
         fieldsets = (
@@ -46,7 +26,7 @@ class CourierAdmin(ModelAdmin):
             )}
              ),
             ("Права доступа", {"fields": [
-                ["role", "is_active"],
+                ["is_active"],
             ]}),
         )
         if request.user.is_superuser:
@@ -67,6 +47,15 @@ class CourierAdmin(ModelAdmin):
         super().save_model(request, obj, form, change)
 
 
+class DispatcherAdmin(AbstractUserAdmin):
+    pass
+
+
+class CourierAdmin(AbstractUserAdmin):
+    pass
+
+
+admin_site.register(Dispatcher, DispatcherAdmin)
 admin_site.register(Courier, CourierAdmin)
 
 
