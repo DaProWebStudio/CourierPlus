@@ -79,7 +79,9 @@ class Courier(User):
         self.role = RoleType.COURIER.value
         self.is_staff = True
         super(Courier, self).save(*args, **kwargs)
-        self.user_permissions.set(get_permissions_for_role(RoleType.COURIER.value))
+        self.user_permissions.set(
+            get_permissions_for_role(RoleType.COURIER.value)
+        )
 
 
 class Dispatcher(User):
@@ -94,5 +96,7 @@ class Dispatcher(User):
         self.role = RoleType.DISPATCHER.value
         self.is_staff = True
         super(Dispatcher, self).save(*args, **kwargs)
-        self.user_permissions.set(get_permissions_for_role(RoleType.DISPATCHER.value))
+        self.user_permissions.set(
+            get_permissions_for_role(RoleType.DISPATCHER.value)
+        )
 
