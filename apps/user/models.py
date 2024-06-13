@@ -65,6 +65,11 @@ class User(AbstractBaseUser, PermissionsMixin):
         if self.first_name and self.last_name:
             return f'{self.first_name[0]}{self.last_name[0]}'
 
+    def save(self, *args, **kwargs):
+        if not self.is_staff and self.role in [RoleType.COURIER.value, RoleType.DISPATCHER.value]:
+            self.is_staff = True
+        super().save(*args, **kwargs)
+
 
 class Courier(User):
     objects = CourierManager()

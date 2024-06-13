@@ -21,6 +21,7 @@ class UserManager(BaseUserManager):
 
     def create_courier(self, email, password=None, **extra_fields):
         extra_fields.setdefault('role', RoleType.COURIER.value)
+        extra_fields.setdefault('is_staff', True)
         return self._create_user(email, password, **extra_fields)
 
     def create_dispatcher(self, email, password=None, **extra_fields):
