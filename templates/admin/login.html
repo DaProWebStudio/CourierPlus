@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+{% load static i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+<html lang="{{ LANGUAGE_CODE }}" class="light-style layout-navbar-fixed layout-menu-fixed" data-assets-path="/static/">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
+
+    <title>
+        {% block title %}Авторизация{% endblock title %} | CourierPlus
+    </title>
+
+    {% block description %}
+        <meta property="og:title" content="{{ ORGANIZATION.TITLE }}">
+        <meta property="og:image" content="{% static "images/logo/logo-main.png" %}">
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="{{ CURRENT_SITE_URL }}">
+        <meta property="og:title" content="{{ ORGANIZATION.TITLE }}">
+        <meta property="og:description" content="{{ ORGANIZATION.DESCRIPTION }}">
+        <meta property="og:image" content="{% static "images/logo/logo-main.png" %}">
+
+        <!-- Twitter -->
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:url" content="{{ CURRENT_SITE_URL }}">
+        <meta property="twitter:title" content="{{ ORGANIZATION.TITLE }}">
+        <meta property="twitter:description" content="{{ ORGANIZATION.DESCRIPTION }}">
+        <meta property="twitter:image" content="{% static "images/logo/logo-main.png" %}">
+    {% endblock description %}
+
+    <link rel="stylesheet" href="{% static 'css/pages/page-auth.css' %}"/>
+    <link rel="stylesheet" href="{% static 'plugins/formvalidation/css/formValidation.min.css' %}">
+    {% include 'Base/links.html' %}
+    {% block links %}{% endblock links %}
+    <script src="{% static 'js/helpers.js' %}"></script>
+    <script src="{% static 'js/template-customizer.js' %}"></script>
+    <script src="{% static 'js/config.js' %}"></script>
+    {% include 'Base/analytics.html' %}
+</head>
+<body>
+<div class="authentication-wrapper authentication-cover d-flex justify-content-center align-items-center">
+    <div class="authentication authentication-bg row shadow mx-0">
+        <div class=" col-12">
+            <h3 class="mb-2 text-center">Авторизация</h3>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="bs-toast toast fade my-3 show bg-{% if message.tags %}{{ message.tags }}{% endif %}"
+                         role="alert"
+                         aria-live="assertive" aria-atomic="true">
+                        <div class="toast-header">
+                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                        <div class="toast-body">{{ message }}</div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <form id="formAuthentication" class="mb-3 fv-plugins-bootstrap5 fv-plugins-framework" method="POST"
+                  novalidate="novalidate">
+                {% csrf_token %}
+                <div class="mb-3 fv-plugins-icon-container">
+                    <label for="{{ form.username.id_for_label }}" class="form-label">{{ form.username.label }}</label>
+                    {{ form.username }}
+                    {% if form.username.errors %}
+                        <div class="fv-plugins-message-container invalid-feedback">
+                            <div data-field="{{ form.username.id_for_label }}"
+                                 data-validator="stringLength">{{ form.username.errors }}</div>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-4 form-password-toggle fv-plugins-icon-container">
+                    <div class="d-flex justify-content-between">
+                        <label class="form-label"
+                               for="{{ form.password.id_for_label }}">{{ form.password.label }}</label>
+                        <a href="#">
+                            <small>Забыли пароль?</small>
+                        </a>
+                    </div>
+                    <div class="input-group input-group-merge has-validation">
+                        {{ form.password }}
+                        <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                    </div>
+                    {% if form.password.errors %}
+                        <div class="fv-plugins-message-container invalid-feedback">
+                            <div data-field="{{ form.password.id_for_label }}"
+                                 data-validator="stringLength">{{ form.password.errors }}</div>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="my-3">
+                    <button class="btn btn-primary d-grid w-100" type="submit">Авторизоваться</button>
+                </div>
+                <input type="hidden" name="next" value="/">
+            </form>
+        </div>
+    </div>
+</div>
+
+{% include 'Base/script.html' %}
+<script src="{% static 'js/auth/main-auth.js' %}"></script>
+<script src="{% static 'plugins/cleavejs/cleave.js' %}"></script>
+<script src="{% static 'plugins/formvalidation/js/FormValidation.min.js' %}"></script>
+<script src="{% static 'plugins/formvalidation/js/plugins/Bootstrap5.min.js' %}"></script>
+<script src="{% static 'plugins/formvalidation/js/plugins/AutoFocus.min.js' %}"></script>
+<script src="{% static 'js/auth/pages-auth.js' %}"></script>
+{% block script %}{% endblock script %}
+</body>
+</html>

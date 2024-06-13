@@ -68,14 +68,6 @@
                                     </a>
                                 </li>
                             {% endif %}
-                            {% if user.user_type == ROLE_TYPE.ADMINISTRATOR %}
-                                <li>
-                                    <a class="dropdown-item d-flex gap-2 cursor-pointer" data-bs-toggle="modal" data-bs-target="#modalCenter">
-                                        <i class="material-symbols-outlined">rule_settings</i>
-                                        <span class="align-middle">{% trans 'Переключиться' %}</span>
-                                    </a>
-                                </li>
-                            {% endif %}
                             {% if user.is_active and user.is_staff %}
                                 {% url 'django-admindocs-docroot' as docsroot %}
                                 {% if docsroot %}
