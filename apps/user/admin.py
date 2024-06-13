@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib import admin, auth
+from django.contrib.auth.hashers import check_password, make_password
 
 from apps.core.admin import ModelAdmin, admin_site
 from apps.user.models import Courier
@@ -52,6 +53,18 @@ class CourierAdmin(ModelAdmin):
             fieldsets[1][1]['fields'][0].append('is_staff')
             fieldsets[1][1]['fields'][0].append('is_superuser')
         return fieldsets
+
+    def save_model(self, request, obj, form, change):
+        if obj.pk:
+            user_database = User.objects.get(pk=obj.pk)
+            if not (check_password(form.data['password'], user_database.password) or user_database.password ==
+                    form.data['password']):
+                obj.password = make_password(obj.password)
+            else:
+                obj.password = user_database.password
+        else:
+            obj.password = make_password(obj.password)
+        super().save_model(request, obj, form, change)
 
 
 admin_site.register(Courier, CourierAdmin)

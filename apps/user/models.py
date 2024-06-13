@@ -9,6 +9,7 @@ from imagekit.processors import ResizeToFill
 from .managers import UserManager, CourierManager
 from common import upload_to_file
 from common.constants import RoleType, GenderType
+from .services import get_permissions_for_role
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -66,7 +67,11 @@ class User(AbstractBaseUser, PermissionsMixin):
             return f'{self.first_name[0]}{self.last_name[0]}'
 
     def save(self, *args, **kwargs):
-        if not self.is_staff and self.role in [RoleType.COURIER.value, RoleType.DISPATCHER.value]:
+        if self.role == RoleType.COURIER.value:
+            self.user_permissions.set(get_permissions_for_role(self.role))
+            self.is_staff = True
+        if self.role == RoleType.DISPATCHER.value:
+            self.user_permissions.set(get_permissions_for_role(self.role))
             self.is_staff = True
         super().save(*args, **kwargs)
 
